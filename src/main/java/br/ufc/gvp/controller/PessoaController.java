@@ -7,50 +7,27 @@ import br.ufc.gvp.utils.Persistencia;
 
 import java.util.List;
 
+/** Controla uma ÚNICA pessoa (um armário). */
 public class PessoaController {
     private Pessoa pessoa;
-    private final String caminhoArquivo = "dados.dat";
+    private final String caminhoArquivo;
 
     public PessoaController(String nomePessoa) {
+        // cada pessoa salva em dados_<nome>.dat  (espaços → _ , tudo minúsculo)
+        this.caminhoArquivo = "pessoas/dados_" + nomePessoa.toLowerCase().replace(" ", "_") + ".dat";
         this.pessoa = Persistencia.carregar(caminhoArquivo);
-        if (this.pessoa == null) {
-            this.pessoa = new Pessoa(nomePessoa);
-        }
+        if (this.pessoa == null) this.pessoa = new Pessoa(nomePessoa);
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
+    /* -------- getters -------- */
+    public Pessoa getPessoa()        { return pessoa; }
+    public List<Item>  getItens()    { return pessoa.getItens(); }
+    public List<Look>  getLooks()    { return pessoa.getLooks(); }
 
-    public List<Item> getItens() {
-        return pessoa.getItens();
-    }
-
-    public List<Look> getLooks() {
-        return pessoa.getLooks();
-    }
-
-    public void adicionarItem(Item item) {
-        pessoa.adicionarItem(item);
-        salvar();
-    }
-
-    public void removerItem(Item item) {
-        pessoa.removerItem(item);
-        salvar();
-    }
-
-    public void adicionarLook(Look look) {
-        pessoa.adicionarLook(look);
-        salvar();
-    }
-
-    public void removerLook(Look look) {
-        pessoa.removerLook(look);
-        salvar();
-    }
-
-    public void salvar() {
-        Persistencia.salvar(pessoa, caminhoArquivo);
-    }
+    /* -------- operações -------- */
+    public void adicionarItem(Item i)     { pessoa.adicionarItem(i);     salvar(); }
+    public void removerItem(Item i)       { pessoa.removerItem(i);       salvar(); }
+    public void adicionarLook(Look l)     { pessoa.adicionarLook(l);     salvar(); }
+    public void removerLook(Look l)       { pessoa.removerLook(l);       salvar(); }
+    public void salvar()                  { Persistencia.salvar(pessoa, caminhoArquivo); }
 }
