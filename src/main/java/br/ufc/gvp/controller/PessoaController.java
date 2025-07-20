@@ -4,10 +4,8 @@ import br.ufc.gvp.model.item.Item;
 import br.ufc.gvp.model.look.Look;
 import br.ufc.gvp.model.pessoa.Pessoa;
 import br.ufc.gvp.utils.Persistencia;
-
 import java.util.List;
 
-/** Controla uma ÚNICA pessoa (um armário). */
 public class PessoaController {
     private Pessoa pessoa;
     private final String caminhoArquivo;
@@ -19,15 +17,34 @@ public class PessoaController {
         if (this.pessoa == null) this.pessoa = new Pessoa(nomePessoa);
     }
 
-    /* -------- getters -------- */
-    public Pessoa getPessoa()        { return pessoa; }
-    public List<Item>  getItens()    { return pessoa.getItens(); }
-    public List<Look>  getLooks()    { return pessoa.getLooks(); }
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+    public List<Item>  getItens() {
+        return pessoa.getItens();
+    }
+    public List<Look>  getLooks() {
+        return pessoa.getLooks();
+    }
 
-    /* -------- operações -------- */
-    public void adicionarItem(Item i)     { pessoa.adicionarItem(i);     salvar(); }
-    public void removerItem(Item i)       { pessoa.removerItem(i);       salvar(); }
-    public void adicionarLook(Look l)     { pessoa.adicionarLook(l);     salvar(); }
-    public void removerLook(Look l)       { pessoa.removerLook(l);       salvar(); }
-    public void salvar()                  { Persistencia.salvar(pessoa, caminhoArquivo); }
+
+    public void adicionarItem(Item i) {
+        pessoa.adicionarItem(i);
+        salvar();
+    }
+    public void removerItem(Item i) {
+        pessoa.removerItem(i);
+        salvar();
+    }
+    public void adicionarLook(Look l) {
+        pessoa.adicionarLook(l);
+        salvar();
+    }
+    public void removerLook(Look l) {
+        pessoa.removerLook(l);
+        salvar();
+    }
+    public void salvar() {
+        Persistencia.salvar(pessoa, caminhoArquivo);
+    }
 }

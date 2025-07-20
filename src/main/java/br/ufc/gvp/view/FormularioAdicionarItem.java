@@ -6,6 +6,7 @@ import br.ufc.gvp.model.item.acessorios.*;
 import br.ufc.gvp.model.item.calcados.*;
 import br.ufc.gvp.model.item.roupas.*;
 import br.ufc.gvp.model.item.roupasIntimas.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.function.Function;

@@ -7,15 +7,14 @@ import java.awt.*;
 import java.io.File;
 import java.util.Objects;
 
-/** Tela inicial: adiciona ou seleciona pessoas. */
 public class JanelaPrincipal extends JFrame {
     private final DefaultListModel<String> listaModelo = new DefaultListModel<>();
-    private final JList<String> listaPessoas          = new JList<>(listaModelo);
-    private final File pastaDados                     = new File("pessoas");
+    private final JList<String> listaPessoas = new JList<>(listaModelo);
+    private final File pastaDados = new File("pessoas");
 
     public JanelaPrincipal() {
         setTitle("Gestor de Vestuário Pessoal – Pessoas");
-        setSize(350, 300);
+        setSize(900, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -24,22 +23,24 @@ public class JanelaPrincipal extends JFrame {
 
         add(new JScrollPane(listaPessoas), BorderLayout.CENTER);
 
-        /* -------- botões -------- */
-        JButton nova = new JButton("Nova Pessoa");
-        JButton abrir = new JButton("Abrir Armário");
+        JButton btnNova = new JButton("Nova Pessoa");
+        JButton btnAbrir = new JButton("Abrir Armário");
+        JButton btnAbrirLooks = new JButton("Abrir Looks");
+
         JPanel painel = new JPanel();
-        painel.add(nova);
-        painel.add(abrir);
+        painel.add(btnNova);
+        painel.add(btnAbrir);
+        painel.add(btnAbrirLooks);
         add(painel, BorderLayout.SOUTH);
 
-        nova.addActionListener(e -> criarPessoa());
-        abrir.addActionListener(e -> abrirPessoa());
+        btnNova.addActionListener(e -> criarPessoa());
+        btnAbrir.addActionListener(e -> abrirPessoa());
+        btnAbrirLooks.addActionListener(e -> abrirLooks());
 
         carregarLista();
         setVisible(true);
     }
 
-    /* -------- lista arquivos .dat -------- */
     private void carregarLista() {
         listaModelo.clear();
         File[] arquivos = Objects.requireNonNull(
@@ -48,7 +49,6 @@ public class JanelaPrincipal extends JFrame {
             listaModelo.addElement(extrairNome(f.getName()));
     }
 
-    /* -------- cria nova pessoa -------- */
     private void criarPessoa() {
         String nome = JOptionPane.showInputDialog(this, "Nome da pessoa:");
         if (nome == null || nome.isBlank()) return;
@@ -62,7 +62,6 @@ public class JanelaPrincipal extends JFrame {
         carregarLista();
     }
 
-    /* -------- abre armário -------- */
     private void abrirPessoa() {
         String nome = listaPessoas.getSelectedValue();
         if (nome == null) {
@@ -70,7 +69,19 @@ public class JanelaPrincipal extends JFrame {
             return;
         }
         PessoaController pc = new PessoaController(nome);
-        new TabelaDeRoupas(pc);
+        new TabelaDeRoupas(this, pc);
+        setVisible(false);
+    }
+
+    private void abrirLooks() {
+        String nome = listaPessoas.getSelectedValue();
+        if (nome == null) {
+            JOptionPane.showMessageDialog(this, "Selecione alguém.");
+            return;
+        }
+        PessoaController pc = new PessoaController(nome);
+        new TabelaDeLooks(this, pc);
+        setVisible(false);
     }
 
     /* util p/ remover prefixo/sufixo */
@@ -78,4 +89,6 @@ public class JanelaPrincipal extends JFrame {
         return arquivo.replace("dados_", "").replace(".dat", "")
                 .replace("_", " ").trim();
     }
+
+
 }

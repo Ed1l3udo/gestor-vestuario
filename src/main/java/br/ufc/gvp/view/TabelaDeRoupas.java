@@ -12,17 +12,19 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class TabelaDeRoupas extends JFrame {
+    private final JFrame janelaAnterior;
     private final PessoaController controller;
     private final DefaultTableModel modelo;
     private final JTable tabela;
 
-    public TabelaDeRoupas(PessoaController controller) {
+    public TabelaDeRoupas(JFrame janelaAnterior, PessoaController controller) {
         this.controller = controller;
+        this.janelaAnterior = janelaAnterior;
 
         setTitle("Armário de " + controller.getPessoa().getNome());
         setSize(900, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         /* tabela */
@@ -41,14 +43,20 @@ public class TabelaDeRoupas extends JFrame {
         tabela.getColumn("Excluir").setCellEditor(new BotaoEditor("Excluir", this::excluirLinha));
 
         /* botões inferiores */
-        JButton add = new JButton("Adicionar Item");
-        JButton salvar = new JButton("Salvar Dados");
-        JPanel p = new JPanel();
-        p.add(add); p.add(salvar);
-        add(p, BorderLayout.SOUTH);
+        JButton btnAdicionar = new JButton("Adicionar Item");
+        JButton btnSalvar = new JButton("Salvar Dados");
+        JButton btnVoltar = new JButton("Voltar");
 
-        add.addActionListener(e -> { new FormularioAdicionarItem(this, controller); carregar(); });
-        salvar.addActionListener(e -> { controller.salvar(); JOptionPane.showMessageDialog(this,"Salvo!"); });
+        JPanel painel = new JPanel();
+        painel.add(btnAdicionar);
+        painel.add(btnSalvar);
+        painel.add(btnVoltar);
+
+        add(painel, BorderLayout.SOUTH);
+
+        btnAdicionar.addActionListener(e -> adicionarItem());
+        btnSalvar.addActionListener(e -> salvar());
+        btnVoltar.addActionListener(e -> voltar());
 
         carregar();
         setVisible(true);
@@ -56,24 +64,48 @@ public class TabelaDeRoupas extends JFrame {
 
     private void carregar(){
         modelo.setRowCount(0);
-        for(Item it: controller.getItens()){
+        for(Item item: controller.getItens()){
             modelo.addRow(new Object[]{
-                    it.getTipo(), it.getCor(), it.getTamanho(),
-                    it.getLojaDeOrigem(), it.getEstadoConservacao(),
-                    "Editar","Excluir"});
+                    item.getTipo(),
+                    item.getCor(),
+                    item.getTamanho(),
+                    item.getLojaDeOrigem(),
+                    item.getEstadoConservacao(),
+                    "Editar",
+                    "Excluir"});
         }
     }
+
     private void editarLinha(int row){
-        Item it = controller.getItens().get(row);
-        new FormularioEditarItem(this, controller, it);
+        Item item = controller.getItens().get(row);
+        new FormularioEditarItem(this, controller, item);
         carregar();
     }
+
     private void excluirLinha(int row){
-        int resp = JOptionPane.showConfirmDialog(this,"Excluir?","Confirma",JOptionPane.YES_NO_OPTION);
-        if(resp==JOptionPane.YES_OPTION){ controller.getItens().remove(row); controller.salvar(); carregar(); }
+        int resposta  = JOptionPane.showConfirmDialog(this,"Excluir?","Confirma",JOptionPane.YES_NO_OPTION);
+        if(resposta == JOptionPane.YES_OPTION){
+            controller.removerItem(controller.getItens().get(row));
+            controller.salvar();
+            carregar();
+        }
     }
 
-    /* ----- botão em célula ----- */
+    public void adicionarItem() {
+        new FormularioAdicionarItem(this, controller);
+        carregar();
+    }
+
+    public void salvar(){
+        controller.salvar();
+        JOptionPane.showMessageDialog(this,"Salvo!");
+    }
+
+    public void voltar() {
+        dispose();
+        janelaAnterior.setVisible(true);
+    }
+
     private static class BotaoRenderer extends JButton implements TableCellRenderer{
         BotaoRenderer(String t){ setText(t); }
         public Component getTableCellRendererComponent(JTable t,Object v,boolean s,boolean f,int r,int c){
