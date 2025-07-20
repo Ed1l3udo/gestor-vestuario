@@ -4,6 +4,7 @@ import br.ufc.gvp.model.item.Item;
 import br.ufc.gvp.model.look.Look;
 import br.ufc.gvp.model.pessoa.Pessoa;
 import br.ufc.gvp.utils.Persistencia;
+import br.ufc.gvp.model.emprestimo.Emprestimo;
 import java.util.List;
 
 public class PessoaController {
@@ -26,6 +27,9 @@ public class PessoaController {
     public List<Look>  getLooks() {
         return pessoa.getLooks();
     }
+    public List<Emprestimo> getEmprestimos() {
+        return pessoa.getEmprestimos();
+    }
 
 
     public void adicionarItem(Item i) {
@@ -46,5 +50,16 @@ public class PessoaController {
     }
     public void salvar() {
         Persistencia.salvar(pessoa, caminhoArquivo);
+    }
+
+    public void adicionarEmprestimo(Item item, String nomePessoa) {
+        pessoa.adicionarEmprestimo(new Emprestimo(item, nomePessoa));
+    }
+
+
+
+    public boolean itemEstaEmprestado(Item item) {
+        return pessoa.getEmprestimos().stream()
+                .anyMatch(e -> e.getItem().equals(item) && !e.estaDevolvido());
     }
 }

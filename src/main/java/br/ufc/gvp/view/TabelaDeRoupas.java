@@ -44,18 +44,21 @@ public class TabelaDeRoupas extends JFrame {
 
         /* botões inferiores */
         JButton btnAdicionar = new JButton("Adicionar Item");
-        JButton btnSalvar = new JButton("Salvar Dados");
+        JButton btnEmprestar = new JButton("Emprestar Item");
+        JButton btnVerEmprestimos = new JButton("Ver Empréstimos");
         JButton btnVoltar = new JButton("Voltar");
 
         JPanel painel = new JPanel();
         painel.add(btnAdicionar);
-        painel.add(btnSalvar);
+        painel.add(btnEmprestar);
+        painel.add(btnVerEmprestimos);
         painel.add(btnVoltar);
 
         add(painel, BorderLayout.SOUTH);
 
         btnAdicionar.addActionListener(e -> adicionarItem());
-        btnSalvar.addActionListener(e -> salvar());
+        btnEmprestar.addActionListener(e -> emprestarItem());
+        btnVerEmprestimos.addActionListener(e -> verEmprestimos());
         btnVoltar.addActionListener(e -> voltar());
 
         carregar();
@@ -91,17 +94,36 @@ public class TabelaDeRoupas extends JFrame {
         }
     }
 
-    public void adicionarItem() {
+    private void adicionarItem() {
         new FormularioAdicionarItem(this, controller);
         carregar();
     }
 
-    public void salvar(){
-        controller.salvar();
-        JOptionPane.showMessageDialog(this,"Salvo!");
+    private void emprestarItem() {
+        int linha = tabela.getSelectedRow();
+        if (linha >= 0) {
+            Item item = controller.getItens().get(linha);
+            if (controller.itemEstaEmprestado(item)) {
+                JOptionPane.showMessageDialog(this, "Item já está emprestado.");
+                return;
+            }
+            String nomePessoa = JOptionPane.showInputDialog(this, "Nome de quem vai pegar emprestado:");
+            if (nomePessoa != null && !nomePessoa.isBlank()) {
+                controller.adicionarEmprestimo(item, nomePessoa);
+                controller.salvar();
+                JOptionPane.showMessageDialog(this, "Empréstimo registrado.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um item para emprestar.");
+        }
     }
 
-    public void voltar() {
+    private void verEmprestimos() {
+        setVisible(false);
+        new TabelaDeEmprestimos(this, controller);
+    }
+
+    private void voltar() {
         dispose();
         janelaAnterior.setVisible(true);
     }

@@ -24,16 +24,19 @@ public class JanelaPrincipal extends JFrame {
         add(new JScrollPane(listaPessoas), BorderLayout.CENTER);
 
         JButton btnNova = new JButton("Nova Pessoa");
+        JButton btnExcluir = new JButton("Excluir Pessoa");
         JButton btnAbrir = new JButton("Abrir Armário");
         JButton btnAbrirLooks = new JButton("Abrir Looks");
 
         JPanel painel = new JPanel();
         painel.add(btnNova);
+        painel.add(btnExcluir);
         painel.add(btnAbrir);
         painel.add(btnAbrirLooks);
         add(painel, BorderLayout.SOUTH);
 
         btnNova.addActionListener(e -> criarPessoa());
+        btnExcluir.addActionListener(e -> excluirPessoa());
         btnAbrir.addActionListener(e -> abrirPessoa());
         btnAbrirLooks.addActionListener(e -> abrirLooks());
 
@@ -61,6 +64,36 @@ public class JanelaPrincipal extends JFrame {
         pc.salvar();
         carregarLista();
     }
+
+    private void excluirPessoa(){
+        String nome = listaPessoas.getSelectedValue();
+        if (nome == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma pessoa para excluir.");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja excluir \"" + nome + "\"?\nEssa ação é irreversível.",
+                "Confirmar Exclusão",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            File arquivo = new File(pastaDados, "dados_" + nome.replace(" ", "_") + ".dat");
+            if (arquivo.exists()) {
+                if (arquivo.delete()) {
+                    JOptionPane.showMessageDialog(this, "Pessoa excluída com sucesso.");
+                    carregarLista();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir o arquivo.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Arquivo não encontrado.");
+            }
+        }
+    }
+
 
     private void abrirPessoa() {
         String nome = listaPessoas.getSelectedValue();

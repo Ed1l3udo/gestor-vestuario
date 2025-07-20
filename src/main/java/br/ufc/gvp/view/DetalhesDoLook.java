@@ -58,13 +58,13 @@ public class DetalhesDoLook extends JFrame {
         JPanel painel = new JPanel(new GridLayout(2, 1));
 
         JPanel linha1 = new JPanel();
-        JButton btnAddItem = new JButton("Adicionar Item");
+        JButton btnAdicionarItem = new JButton("Adicionar Item");
         JButton btnRemoverItem = new JButton("Remover Item");
         JButton btnRegistrarUso = new JButton("Registrar Uso");
         JButton btnVerUsos = new JButton("Ver Usos");
         JButton btnVoltar = new JButton("Voltar");
 
-        linha1.add(btnAddItem);
+        linha1.add(btnAdicionarItem);
         linha1.add(btnRemoverItem);
         linha1.add(btnRegistrarUso);
         linha1.add(btnVerUsos);
@@ -72,62 +72,100 @@ public class DetalhesDoLook extends JFrame {
 
         painel.add(linha1);
 
-        btnAddItem.addActionListener(e -> {
-            Item itemSelecionado = selecionarItemDialogo();
-            if (itemSelecionado != null) {
-                look.adicionarItem(itemSelecionado);
-                modeloListaItens.addElement(itemSelecionado);
-                controller.salvar();
-            }
-        });
-
-        btnRemoverItem.addActionListener(e -> {
-            Item itemSelecionado = selecionarItemDialogo();
-            if (itemSelecionado != null && look.getItens().contains(itemSelecionado)) {
-                look.removerItem(itemSelecionado);
-                modeloListaItens.removeElement(itemSelecionado);
-                controller.salvar();
-            } else {
-                JOptionPane.showMessageDialog(this, "Item não está no look.");
-            }
-        });
-
-        btnRegistrarUso.addActionListener(e -> {
-            String descricao = JOptionPane.showInputDialog(this, "Descrição do uso:");
-            if (descricao != null && !descricao.isBlank()) {
-                look.registrarUso(LocalDateTime.now(), descricao);
-                modeloListaUsos.addElement(LocalDateTime.now() + " - " + descricao);
-                controller.salvar();
-            }
-        });
-
-        btnVerUsos.addActionListener(e -> {
-            setVisible(false);
-            new RegistroUsoDetalhado(this, controller, look);
-        });
-
-        btnVoltar.addActionListener(e -> {
-            dispose();
-            janelaAnterior.setVisible(true);
-            if (janelaAnterior instanceof TabelaDeLooks tabela) {
-                tabela.carregarTabela();
-            }
-        });
+        btnAdicionarItem.addActionListener(e -> adicionarItem());
+        btnRemoverItem.addActionListener(e -> removerItem());
+        btnRegistrarUso.addActionListener(e -> registrarUso());
+        btnVerUsos.addActionListener(e -> verUsos());
+        btnVoltar.addActionListener(e -> voltar());
 
         return painel;
     }
 
+    private void adicionarItem() {
+        Item itemSelecionado = selecionarItemDialogo();
+        if (itemSelecionado != null) {
+            look.adicionarItem(itemSelecionado);
+            modeloListaItens.addElement(itemSelecionado);
+            controller.salvar();
+        }
+    }
+
+    private void removerItem() {
+        Item itemSelecionado = selecionarItemParaRemover();
+        if (itemSelecionado != null) {
+            look.removerItem(itemSelecionado);
+            modeloListaItens.removeElement(itemSelecionado);
+            controller.salvar();
+        }
+    }
+
+    private void registrarUso() {
+        String descricao = JOptionPane.showInputDialog(this, "Descrição do uso:");
+        if (descricao != null && !descricao.isBlank()) {
+            look.registrarUso(LocalDateTime.now(), descricao);
+            modeloListaUsos.addElement(LocalDateTime.now() + " - " + descricao);
+            controller.salvar();
+        }
+    }
+
+    private void verUsos() {
+        setVisible(false);
+        new RegistroUsoDetalhado(this, controller, look);
+    }
+
+    private void voltar() {
+        dispose();
+        janelaAnterior.setVisible(true);
+        if (janelaAnterior instanceof TabelaDeLooks tabela) {
+            tabela.carregarTabela();
+        }
+    }
+
     private Item selecionarItemDialogo() {
         java.util.List<Item> todosItens = controller.getItens();
+        java.util.List<String> tiposJaAdicionados = look.getItens().stream()
+                .map(Item::getTipo)
+                .toList();
+
+        java.util.List<Item> itensDisponiveis = todosItens.stream()
+                .filter(item -> !tiposJaAdicionados.contains(item.getTipo()))
+                .toList();
+
+        if (itensDisponiveis.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum item disponível com tipo diferente.");
+            return null;
+        }
+
         Item itemSelecionado = (Item) JOptionPane.showInputDialog(
                 this,
                 "Selecione um item:",
                 "Itens Disponíveis",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
-                todosItens.toArray(),
+                itensDisponiveis.toArray(),
                 null
         );
         return itemSelecionado;
     }
+
+    private Item selecionarItemParaRemover() {
+        java.util.List<Item> itensDoLook = look.getItens();
+
+        if (itensDoLook.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhum item para remover.");
+            return null;
+        }
+
+        Item itemSelecionado = (Item) JOptionPane.showInputDialog(
+                this,
+                "Selecione um item para remover:",
+                "Itens no Look",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                itensDoLook.toArray(),
+                null
+        );
+        return itemSelecionado;
+    }
+
 }

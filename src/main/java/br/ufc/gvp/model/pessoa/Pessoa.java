@@ -3,6 +3,7 @@ package br.ufc.gvp.model.pessoa;
 import br.ufc.gvp.model.item.Item;
 import br.ufc.gvp.model.item.interfaces.IEmprestavel;
 import br.ufc.gvp.model.look.Look;
+import br.ufc.gvp.model.emprestimo.Emprestimo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,11 +13,13 @@ public class Pessoa implements Serializable {
     private String nome;
     private List<Item> itens;
     private List<Look> looks;
+    private List<Emprestimo> emprestimos;
 
     public Pessoa(String nome) {
         this.nome = nome;
         this.itens = new ArrayList<>();
         this.looks = new ArrayList<>();
+        this.emprestimos = new ArrayList<>();
     }
 
     public String getNome() {
@@ -45,6 +48,18 @@ public class Pessoa implements Serializable {
 
     public void removerLook(Look look) {
         looks.remove(look);
+    }
+
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void adicionarEmprestimo(Emprestimo e) {
+        emprestimos.add(e);
+    }
+
+    public void removerEmprestimo(Emprestimo e) {
+        emprestimos.remove(e);
     }
 
     public List<Item> getItensEmprestados() {

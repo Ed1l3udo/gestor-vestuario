@@ -61,5 +61,11 @@ public abstract class Item implements Serializable {
         this.imagem = imagem;
     }
 
+    @Override
+    public String toString() {
+        return getTipo() + " - " + cor + ", tam: " + tamanho + " [" + estadoConservacao + "]";
+    }
+
     public abstract String getTipo();
+
 }
