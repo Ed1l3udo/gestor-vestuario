@@ -3,18 +3,18 @@ package br.ufc.gvp.model.emprestimo;
 import br.ufc.gvp.model.item.Item;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Emprestimo implements Serializable {
     private final Item item;
     private final String nomePessoa;
-    private final LocalDateTime dataEmprestimo;
-    private LocalDateTime dataDevolucao;
+    private final LocalDate dataEmprestimo;
+    private LocalDate dataDevolucao;
 
     public Emprestimo(Item item, String nomePessoa) {
         this.item = item;
         this.nomePessoa = nomePessoa;
-        this.dataEmprestimo = LocalDateTime.now();
+        this.dataEmprestimo = LocalDate.now();
     }
 
     public Item getItem() {
@@ -25,16 +25,16 @@ public class Emprestimo implements Serializable {
         return nomePessoa;
     }
 
-    public LocalDateTime getDataEmprestimo() {
+    public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
     }
 
-    public LocalDateTime getDataDevolucao() {
+    public LocalDate getDataDevolucao() {
         return dataDevolucao;
     }
 
     public void registrarDevolucao() {
-        this.dataDevolucao = LocalDateTime.now();
+        this.dataDevolucao = LocalDate.now();
     }
 
     public boolean estaDevolvido() {

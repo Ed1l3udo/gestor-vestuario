@@ -18,9 +18,9 @@ public class TabelaDeEmprestimos extends JFrame {
         this.janelaAnterior = janelaAnterior;
 
         setTitle("Empréstimos de " + controller.getPessoa().getNome());
-        setSize(700, 400);
+        setSize(900, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         modelo = new DefaultTableModel(new String[]{"Item", "Pessoa Destino", "Data", "Status"}, 0);

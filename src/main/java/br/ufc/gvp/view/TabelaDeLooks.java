@@ -85,8 +85,8 @@ public class TabelaDeLooks extends JFrame {
         int linha = tabela.getSelectedRow();
         if (linha >= 0) {
             Look look = controller.getLooks().get(linha);
-            int confirm = JOptionPane.showConfirmDialog(this, "Excluir o look \"" + look.getNome() + "\"?");
-            if (confirm == JOptionPane.YES_OPTION) {
+            int resposta = JOptionPane.showConfirmDialog(this, "Excluir o look \"" + look.getNome() + "\"?", "Confirma?", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
                 controller.removerLook(look);
                 carregarTabela();
             }

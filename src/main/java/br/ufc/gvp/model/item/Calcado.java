@@ -5,12 +5,14 @@ import br.ufc.gvp.model.item.interfaces.ILavavel;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Calcado extends Item implements IEmprestavel, ILavavel {
     private boolean emprestado;
     private String emprestadoPara;
     private LocalDate dataEmprestimo;
-    private LocalDate ultimaLavagem;
+    private final List<LocalDate> lavagens = new ArrayList<>();
 
     public Calcado(String nome, String cor, String tamanho, String loja, String estado, String imagem) {
         super(nome, cor, tamanho, loja, estado, imagem);
@@ -39,10 +41,11 @@ public abstract class Calcado extends Item implements IEmprestavel, ILavavel {
 
     @Override
     public void registrarLavagem(LocalDate data) {
-        ultimaLavagem = data;
+        lavagens.add(data);
     }
 
-    public LocalDate getUltimaLavagem(){
-        return ultimaLavagem;
+    @Override
+    public List<LocalDate> getLavagens() {
+        return lavagens;
     }
 }

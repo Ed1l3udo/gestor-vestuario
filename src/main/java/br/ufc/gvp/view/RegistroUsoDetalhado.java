@@ -13,6 +13,7 @@ public class RegistroUsoDetalhado extends JFrame {
     private final Look look;
     private final JFrame janelaAnterior;
     private final DefaultListModel<RegistroUso> modeloLista;
+    private final JList<RegistroUso> listaUsos;
 
     public RegistroUsoDetalhado(JFrame janelaAnterior, PessoaController controller, Look look) {
         this.controller = controller;
@@ -28,7 +29,7 @@ public class RegistroUsoDetalhado extends JFrame {
         // Lista de usos
         modeloLista = new DefaultListModel<>();
         look.getUsos().forEach(modeloLista::addElement);
-        JList<RegistroUso> listaUsos = new JList<>(modeloLista);
+        listaUsos = new JList<>(modeloLista);
         listaUsos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listaUsos.setCellRenderer(new DefaultListCellRenderer() {
             @Override
@@ -51,29 +52,33 @@ public class RegistroUsoDetalhado extends JFrame {
         add(painelBotoes, BorderLayout.SOUTH);
 
         // Ação de remover
-        btnRemover.addActionListener(e -> {
-            RegistroUso usoSelecionado = listaUsos.getSelectedValue();
-            if (usoSelecionado != null) {
-                int resposta = JOptionPane.showConfirmDialog(this,
-                        "Deseja remover este registro de uso?",
-                        "Confirmar Remoção",
-                        JOptionPane.YES_NO_OPTION);
-                if (resposta == JOptionPane.YES_OPTION) {
-                    modeloLista.removeElement(usoSelecionado);
-                    look.getUsos().remove(usoSelecionado);
-                    controller.salvar();
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecione um uso para remover.");
-            }
-        });
+        btnRemover.addActionListener(e -> removerUso());
 
         // Voltar
-        btnVoltar.addActionListener(e -> {
-            dispose();
-            janelaAnterior.setVisible(true);
-        });
+        btnVoltar.addActionListener(e -> voltar());
 
         setVisible(true);
+    }
+
+    private void removerUso() {
+        RegistroUso usoSelecionado = listaUsos.getSelectedValue();
+        if (usoSelecionado != null) {
+            int resposta = JOptionPane.showConfirmDialog(this,
+                    "Deseja remover este registro de uso?",
+                    "Confirmar Remoção",
+                    JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                modeloLista.removeElement(usoSelecionado);
+                look.getUsos().remove(usoSelecionado);
+                controller.salvar();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um uso para remover.");
+        }
+    }
+
+    private void voltar() {
+        dispose();
+        janelaAnterior.setVisible(true);
     }
 }

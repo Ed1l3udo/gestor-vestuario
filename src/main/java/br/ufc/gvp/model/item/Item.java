@@ -1,6 +1,9 @@
 package br.ufc.gvp.model.item;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ArrayList;
 
 public abstract class Item implements Serializable {
     private String nome;
@@ -9,6 +12,9 @@ public abstract class Item implements Serializable {
     private String lojaDeOrigem;
     private String estadoConservacao;
     private String imagem;
+    private int totalUsos;
+    private int totalLavagens;
+
 
     public Item(String nome, String cor, String tamanho, String lojaDeOrigem, String estadoConservacao, String imagem) {
         this.nome = nome;
@@ -59,6 +65,22 @@ public abstract class Item implements Serializable {
     }
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public int getTotalUsos() {
+        return totalUsos;
+    }
+
+    public void setTotalUsos(int totalUsos) {
+        this.totalUsos = totalUsos;
+    }
+
+    public int getTotalLavagens() {
+        return totalLavagens;
+    }
+
+    public void setTotalLavagens(int totalLavagens) {
+        this.totalLavagens = totalLavagens;
     }
 
     @Override
