@@ -50,6 +50,9 @@ public class Look implements Serializable {
     public void excluirUso(RegistroUso uso){
         getUsos().remove(uso);
         totalUsos--;
+        for(Item item : itens){
+            item.setTotalUsos(item.getTotalUsos()-1);
+        }
     }
 
     public List<RegistroUso> getUsos() {

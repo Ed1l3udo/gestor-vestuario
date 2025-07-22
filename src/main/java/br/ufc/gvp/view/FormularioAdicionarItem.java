@@ -28,6 +28,15 @@ public class FormularioAdicionarItem extends JDialog {
         SANDALIA ("Sandália", args -> new Sandalia(args[0], args[1], args[2], args[3])),
         RELOGIO  ("Relógio", args -> new Relogio (args[0], args[1], args[2], args[3])),
         PULSEIRA ("Pulseira", args -> new Pulseira(args[0], args[1], args[2], args[3])),
+        ANEL ("Pulseira", args -> new Pulseira(args[0], args[1], args[2], args[3])),
+        COLAR ("Colar", args -> new Colar(args[0], args[1], args[2], args[3])),
+        BOTA ("Bota", args -> new Bota(args[0], args[1], args[2], args[3])),
+        SAPATILHA ("Sapatilha", args -> new Sapatilha(args[0], args[1], args[2], args[3])),
+        SAPATO ("Sapato", args -> new Sapato(args[0], args[1], args[2], args[3])),
+        CAMISETA ("Camiseta", args -> new Camiseta(args[0], args[1], args[2], args[3])),
+        VESTIDO ("Vestido", args -> new Vestido(args[0], args[1], args[2], args[3])),
+        CALCINHA ("Calcinha", args -> new Calcinha(args[0], args[1], args[2], args[3])),
+        SUTIA ("Sutiã", args -> new Sutia(args[0], args[1], args[2], args[3])),
         CUECA    ("Cueca", args -> new Cueca(args[0], args[1], args[2], args[3]));
 
 

@@ -7,6 +7,7 @@ import br.ufc.gvp.model.look.RegistroUso;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class DetalhesDoLook extends JFrame {
         String descricao = JOptionPane.showInputDialog(this, "Descrição do uso:");
         if (descricao != null && !descricao.isBlank()) {
             look.registrarUso(LocalDateTime.now(), descricao);
-            modeloListaUsos.addElement(LocalDateTime.now() + " - " + descricao);
+            modeloListaUsos.addElement(LocalDate.now() + " - " + descricao);
             controller.salvar();
         }
     }

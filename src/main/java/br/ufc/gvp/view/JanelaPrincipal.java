@@ -129,7 +129,7 @@ public class JanelaPrincipal extends JFrame {
             return;
         }
         PessoaController pc = new PessoaController(nome);
-        new TelaEstatisticas(this, pc);
+        new JanelaEstatisticas(this, pc);
         setVisible(false);
     }
 

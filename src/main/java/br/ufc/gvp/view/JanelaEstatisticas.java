@@ -11,16 +11,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TelaEstatisticas extends JFrame {
+public class JanelaEstatisticas extends JFrame {
     private final PessoaController controller;
     private final JFrame janelaAnterior;
 
-    public TelaEstatisticas(JFrame janelaAnterior, PessoaController controller) {
+    public JanelaEstatisticas(JFrame janelaAnterior, PessoaController controller) {
         this.janelaAnterior = janelaAnterior;
         this.controller = controller;
 
         setTitle("Estatísticas - " + controller.getPessoa().getNome());
-        setSize(900, 600);
+        setSize(900, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
