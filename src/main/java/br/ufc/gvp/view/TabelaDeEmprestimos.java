@@ -46,25 +46,20 @@ public class TabelaDeEmprestimos extends JFrame {
 
     private void finalizarEmprestimo(){
         int linha = tabela.getSelectedRow();
-        if (linha >= 0) {
-            Emprestimo emprestimo = controller.getEmprestimos().get(linha);
-            if (emprestimo.estaDevolvido()) {
-                JOptionPane.showMessageDialog(this, "Este empréstimo já está finalizado.");
-                return;
-            }
-            int confirm = JOptionPane.showConfirmDialog(
-                    this,
-                    "Deseja finalizar o empréstimo do item \"" + emprestimo.getItem().getNome() + "\"?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION
-            );
-            if (confirm == JOptionPane.YES_OPTION) {
-                emprestimo.registrarDevolucao();
-                controller.salvar();  // garante persistência
-                carregarTabela();     // atualiza a tabela
-            }
-        } else {
+        if (linha < 0) {
             JOptionPane.showMessageDialog(this, "Selecione um empréstimo.");
+            return;
+        }
+        Emprestimo emprestimo = controller.getEmprestimos().get(linha);
+        if (emprestimo.estaDevolvido()) {
+            JOptionPane.showMessageDialog(this, "Este empréstimo já está finalizado.");
+            return;
+        }
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja finalizar o empréstimo do item \"" + emprestimo.getItem().getNome() + "\"?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            emprestimo.registrarDevolucao();
+            controller.salvar();
+            carregarTabela();
         }
     }
 

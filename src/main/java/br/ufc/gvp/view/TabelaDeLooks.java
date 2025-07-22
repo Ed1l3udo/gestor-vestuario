@@ -61,7 +61,6 @@ public class TabelaDeLooks extends JFrame {
         painel.add(btnVoltar);
         add(painel, BorderLayout.SOUTH);
 
-        // Ações
         btnCriar.addActionListener(e -> criarLook());
         btnExcluir.addActionListener(e -> excluirLook());
         btnVoltar.addActionListener(e -> voltar());

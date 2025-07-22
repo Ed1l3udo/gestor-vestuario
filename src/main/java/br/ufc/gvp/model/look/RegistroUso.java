@@ -1,18 +1,18 @@
 package br.ufc.gvp.model.look;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class RegistroUso implements Serializable {
-    private LocalDateTime dataHora;
+    private LocalDate dataHora;
     private String descricao;
 
-    public RegistroUso(LocalDateTime dataHora, String descricao) {
+    public RegistroUso(LocalDate dataHora, String descricao) {
         this.dataHora = dataHora;
         this.descricao = descricao;
     }
 
-    public LocalDateTime getDataHora() {
+    public LocalDate getDataHora() {
         return dataHora;
     }
 

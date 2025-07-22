@@ -7,6 +7,7 @@ import br.ufc.gvp.model.pessoa.Pessoa;
 import br.ufc.gvp.utils.Persistencia;
 import br.ufc.gvp.model.emprestimo.Emprestimo;
 
+import javax.swing.*;
 import java.util.List;
 
 public class PessoaController {
@@ -16,7 +17,18 @@ public class PessoaController {
     public PessoaController(String nomePessoa) {
         this.caminhoArquivo = "pessoas/dados_" + nomePessoa.toLowerCase().replace(" ", "_") + ".dat";
         this.pessoa = Persistencia.carregar(caminhoArquivo);
-        if (this.pessoa == null) this.pessoa = new Pessoa(nomePessoa);
+
+        if (this.pessoa == null) {
+            if (new java.io.File(caminhoArquivo).exists()) {
+                // Arquivo existe, mas falhou ao carregar. Evitar sobrescrever
+                System.err.println("Erro ao carregar os dados da pessoa '" + nomePessoa + "'. Arquivo existente mas ilegível.");
+                JOptionPane.showMessageDialog(null, "Erro ao carregar os dados da pessoa \"" + nomePessoa + "\".\nO arquivo parece corrompido ou incompatível.");
+                throw new RuntimeException("Erro ao carregar pessoa existente.");
+            } else {
+                // Arquivo não existe. Pode criar nova pessoa
+                this.pessoa = new Pessoa(nomePessoa);
+            }
+        }
     }
 
     public Pessoa getPessoa() {

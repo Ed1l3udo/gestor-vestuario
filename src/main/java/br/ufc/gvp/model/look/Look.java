@@ -3,6 +3,7 @@ package br.ufc.gvp.model.look;
 import br.ufc.gvp.model.item.Item;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class Look implements Serializable {
         itens.remove(item);
     }
 
-    public void registrarUso(LocalDateTime dataHora, String descricao) {
+    public void registrarUso(LocalDate dataHora, String descricao) {
         usos.add(new RegistroUso(dataHora, descricao));
         totalUsos++;
         for(Item item : itens){

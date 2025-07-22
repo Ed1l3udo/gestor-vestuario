@@ -50,10 +50,7 @@ public class JanelaPrincipal extends JFrame {
 
     private void carregarLista() {
         listaModelo.clear();
-        File[] arquivos = Objects.requireNonNull(
-                pastaDados.listFiles((d, n) -> n.startsWith("dados_") && n.endsWith(".dat")));
-        for (File f : arquivos)
-            listaModelo.addElement(extrairNome(f.getName()));
+        File[] arquivos = Objects.requireNonNull(pastaDados.listFiles((d, n) -> n.startsWith("dados_") && n.endsWith(".dat")));for (File f : arquivos) listaModelo.addElement(extrairNome(f.getName()));
     }
 
     private void criarPessoa() {
@@ -63,7 +60,7 @@ public class JanelaPrincipal extends JFrame {
             JOptionPane.showMessageDialog(this, "Pessoa já existe!");
             return;
         }
-        // cria controler e salva arquivo inicial
+
         PessoaController pc = new PessoaController(nome.trim());
         pc.salvar();
         carregarLista();
@@ -76,24 +73,21 @@ public class JanelaPrincipal extends JFrame {
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Tem certeza que deseja excluir \"" + nome + "\"?\nEssa ação é irreversível.",
-                "Confirmar Exclusão",
-                JOptionPane.YES_NO_OPTION
-        );
+        int confirm = JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir \"" + nome + "\"?\nEssa ação é irreversível.", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
             File arquivo = new File(pastaDados, "dados_" + nome.replace(" ", "_") + ".dat");
-            if (arquivo.exists()) {
-                if (arquivo.delete()) {
-                    JOptionPane.showMessageDialog(this, "Pessoa excluída com sucesso.");
-                    carregarLista();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao excluir o arquivo.");
-                }
-            } else {
+
+            if (!(arquivo.exists())) {
                 JOptionPane.showMessageDialog(this, "Arquivo não encontrado.");
+                return;
+            }
+
+            if (arquivo.delete()) {
+                JOptionPane.showMessageDialog(this, "Pessoa excluída com sucesso.");
+                carregarLista();
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao excluir o arquivo.");
             }
         }
     }
@@ -133,11 +127,8 @@ public class JanelaPrincipal extends JFrame {
         setVisible(false);
     }
 
-
-    /* util p/ remover prefixo/sufixo */
     private String extrairNome(String arquivo) {
-        return arquivo.replace("dados_", "").replace(".dat", "")
-                .replace("_", " ").trim();
+        return arquivo.replace("dados_", "").replace(".dat", "").replace("_", " ").trim();
     }
 
 

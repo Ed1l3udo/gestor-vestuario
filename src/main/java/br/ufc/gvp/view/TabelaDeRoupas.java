@@ -12,7 +12,6 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class TabelaDeRoupas extends JFrame {
@@ -31,7 +30,6 @@ public class TabelaDeRoupas extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        /* tabela */
         String[] colunas = {"Tipo", "Cor", "Tam.", "Loja", "Estado", "Editar", "Excluir"};
         modelo = new DefaultTableModel(colunas, 0) {
             @Override public boolean isCellEditable(int r,int c){ return c>=5; }
@@ -40,13 +38,11 @@ public class TabelaDeRoupas extends JFrame {
         tabela.setRowHeight(28);
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
-        /* render/editor */
         tabela.getColumn("Editar").setCellRenderer(new BotaoRenderer("Editar"));
         tabela.getColumn("Editar").setCellEditor(new BotaoEditor("Editar", this::editarLinha));
         tabela.getColumn("Excluir").setCellRenderer(new BotaoRenderer("Excluir"));
         tabela.getColumn("Excluir").setCellEditor(new BotaoEditor("Excluir", this::excluirLinha));
 
-        /* botões inferiores */
         JButton btnAdicionar = new JButton("Adicionar Item");
         JButton btnEmprestar = new JButton("Emprestar Item");
         JButton btnLavar = new JButton("Lavar Item");
@@ -145,6 +141,11 @@ public class TabelaDeRoupas extends JFrame {
 
         if (!(item instanceof ILavavel)) {
             JOptionPane.showMessageDialog(this, "Este item não é lavável.");
+            return;
+        }
+
+        if (controller.itemEstaEmprestado(item)) {
+            JOptionPane.showMessageDialog(this, "Item está emprestado, então não pode ser lavado.");
             return;
         }
 

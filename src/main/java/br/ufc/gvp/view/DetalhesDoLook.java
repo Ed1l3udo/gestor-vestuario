@@ -8,7 +8,6 @@ import br.ufc.gvp.model.look.RegistroUso;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class DetalhesDoLook extends JFrame {
@@ -104,7 +103,7 @@ public class DetalhesDoLook extends JFrame {
     private void registrarUso() {
         String descricao = JOptionPane.showInputDialog(this, "Descrição do uso:");
         if (descricao != null && !descricao.isBlank()) {
-            look.registrarUso(LocalDateTime.now(), descricao);
+            look.registrarUso(LocalDate.now(), descricao);
             modeloListaUsos.addElement(LocalDate.now() + " - " + descricao);
             controller.salvar();
         }
@@ -133,15 +132,7 @@ public class DetalhesDoLook extends JFrame {
             return null;
         }
 
-        Item itemSelecionado = (Item) JOptionPane.showInputDialog(
-                this,
-                "Selecione um item:",
-                "Itens Disponíveis",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                itensDisponiveis.toArray(),
-                null
-        );
+        Item itemSelecionado = (Item) JOptionPane.showInputDialog(this, "Selecione um item:", "Itens Disponíveis", JOptionPane.PLAIN_MESSAGE, null, itensDisponiveis.toArray(), null);
         return itemSelecionado;
     }
 
@@ -153,15 +144,7 @@ public class DetalhesDoLook extends JFrame {
             return null;
         }
 
-        Item itemSelecionado = (Item) JOptionPane.showInputDialog(
-                this,
-                "Selecione um item para remover:",
-                "Itens no Look",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                itensDoLook.toArray(),
-                null
-        );
+        Item itemSelecionado = (Item) JOptionPane.showInputDialog(this, "Selecione um item para remover:", "Itens no Look", JOptionPane.PLAIN_MESSAGE, null, itensDoLook.toArray(), null);
         return itemSelecionado;
     }
 

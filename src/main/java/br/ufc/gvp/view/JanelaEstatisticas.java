@@ -45,27 +45,19 @@ public class JanelaEstatisticas extends JFrame {
     }
 
     private JPanel painelItensMaisUsados() {
-        return criarTabelaItem(controller.getItens().stream()
-                .sorted(Comparator.comparingInt(Item::getTotalUsos).reversed())
-                .limit(10).collect(Collectors.toList()));
+        return criarTabelaItem(controller.getItens().stream().sorted(Comparator.comparingInt(Item::getTotalUsos).reversed()).limit(10).collect(Collectors.toList()));
     }
 
     private JPanel painelItensMenosUsados() {
-        return criarTabelaItem(controller.getItens().stream()
-                .sorted(Comparator.comparingInt(Item::getTotalUsos))
-                .limit(10).collect(Collectors.toList()));
+        return criarTabelaItem(controller.getItens().stream().sorted(Comparator.comparingInt(Item::getTotalUsos)).limit(10).collect(Collectors.toList()));
     }
 
     private JPanel painelItensMaisLavados() {
-        return criarTabelaItem(controller.getItens().stream()
-                .sorted(Comparator.comparingInt(Item::getTotalLavagens).reversed())
-                .limit(10).collect(Collectors.toList()));
+        return criarTabelaItem(controller.getItens().stream().sorted(Comparator.comparingInt(Item::getTotalLavagens).reversed()).limit(10).collect(Collectors.toList()));
     }
 
     private JPanel painelItensEmprestados() {
-        List<Item> emprestados = controller.getEmprestimos().stream()
-                .filter(e -> !e.estaDevolvido())
-                .map(e -> e.getItem()).collect(Collectors.toList());
+        List<Item> emprestados = controller.getEmprestimos().stream().filter(e -> !e.estaDevolvido()).map(e -> e.getItem()).collect(Collectors.toList());
         return criarTabelaItem(emprestados);
     }
 

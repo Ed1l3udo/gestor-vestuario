@@ -29,16 +29,19 @@ public class JanelaLavagens extends JFrame {
         JList<String> lista = new JList<>(modelo);
         add(new JScrollPane(lista), BorderLayout.CENTER);
 
-        JButton voltar = new JButton("Voltar");
-        voltar.addActionListener(e -> {
-            dispose();
-            janelaAnterior.setVisible(true);
-        });
+        JButton btnVoltar = new JButton("Voltar");
 
         JPanel painel = new JPanel();
-        painel.add(voltar);
+        painel.add(btnVoltar);
         add(painel, BorderLayout.SOUTH);
 
+        btnVoltar.addActionListener(e -> voltar());
+
         setVisible(true);
+    }
+
+    private void voltar() {
+        dispose();
+        janelaAnterior.setVisible(true);
     }
 }

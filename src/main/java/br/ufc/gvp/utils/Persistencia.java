@@ -5,6 +5,10 @@ import java.io.*;
 public class Persistencia {
 
     public static void salvar(Object objeto, String caminho) {
+        if (objeto == null) {
+            System.err.println("Tentando salvar objeto nulo em " + caminho);
+            return;
+        }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(caminho))) {
             oos.writeObject(objeto);
         } catch (IOException e) {

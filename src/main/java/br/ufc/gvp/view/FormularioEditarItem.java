@@ -7,18 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FormularioEditarItem extends JDialog {
-    private final JTextField cor=new JTextField(), tam=new JTextField(),
-            loja=new JTextField(), est=new JTextField();
+    private final JTextField cor=new JTextField(), tam=new JTextField(), loja=new JTextField(), est=new JTextField();
 
-    public FormularioEditarItem(JFrame parent, PessoaController ctrl, Item it){
+    public FormularioEditarItem(JFrame parent, PessoaController ctrl, Item item){
         super(parent,"Editar Item",true);
         setSize(420,300);
         setLayout(new BorderLayout());
 
-        cor.setText(it.getCor());
-        tam.setText(it.getTamanho());
-        loja.setText(it.getLojaDeOrigem());
-        est.setText(it.getEstadoConservacao());
+        cor.setText(item.getCor());
+        tam.setText(item.getTamanho());
+        loja.setText(item.getLojaDeOrigem());
+        est.setText(item.getEstadoConservacao());
 
         JPanel grid=new JPanel(new GridLayout(5,2,5,5));
         grid.add(new JLabel("Cor:"));     grid.add(cor);
@@ -29,10 +28,10 @@ public class FormularioEditarItem extends JDialog {
 
         JButton salvar=new JButton("Salvar");
         salvar.addActionListener(e->{
-            it.setCor(cor.getText());
-            it.setTamanho(tam.getText());
-            it.setLojaDeOrigem(loja.getText());
-            it.setEstadoConservacao(est.getText());
+            item.setCor(cor.getText());
+            item.setTamanho(tam.getText());
+            item.setLojaDeOrigem(loja.getText());
+            item.setEstadoConservacao(est.getText());
             ctrl.salvar();
             dispose();
         });
