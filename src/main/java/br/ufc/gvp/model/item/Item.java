@@ -1,9 +1,6 @@
 package br.ufc.gvp.model.item;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.ArrayList;
 
 public abstract class Item implements Serializable {
     private String nome;
@@ -11,18 +8,16 @@ public abstract class Item implements Serializable {
     private String tamanho;
     private String lojaDeOrigem;
     private String estadoConservacao;
-    private String imagem;
     private int totalUsos;
     private int totalLavagens;
 
 
-    public Item(String nome, String cor, String tamanho, String lojaDeOrigem, String estadoConservacao, String imagem) {
+    public Item(String nome, String cor, String tamanho, String lojaDeOrigem, String estadoConservacao) {
         this.nome = nome;
         this.cor = cor;
         this.tamanho = tamanho;
         this.lojaDeOrigem = lojaDeOrigem;
         this.estadoConservacao = estadoConservacao;
-        this.imagem = imagem;
     }
 
     public String getNome() {
@@ -60,13 +55,6 @@ public abstract class Item implements Serializable {
         this.estadoConservacao = estadoConservacao;
     }
 
-    public String getImagem() {
-        return imagem;
-    }
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
     public int getTotalUsos() {
         return totalUsos;
     }
@@ -85,9 +73,7 @@ public abstract class Item implements Serializable {
 
     @Override
     public String toString() {
-        return getTipo() + " - " + cor + ", tam: " + tamanho + " [" + estadoConservacao + "]";
+        return getNome() + " - " + cor + ", tam: " + tamanho + " [" + estadoConservacao + "]";
     }
-
-    public abstract String getTipo();
 
 }

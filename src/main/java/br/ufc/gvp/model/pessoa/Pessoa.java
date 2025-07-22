@@ -58,19 +58,4 @@ public class Pessoa implements Serializable {
         emprestimos.add(e);
     }
 
-    public void removerEmprestimo(Emprestimo e) {
-        emprestimos.remove(e);
-    }
-
-    public List<Item> getItensEmprestados() {
-        List<Item> emprestados = new ArrayList<>();
-        for (Item item : itens) {
-            if (item instanceof IEmprestavel emprestavel) {
-                if (emprestavel.quantidadeDeDiasDesdeOEmprestimo() > 0) {
-                    emprestados.add(item);
-                }
-            }
-        }
-        return emprestados;
-    }
 }

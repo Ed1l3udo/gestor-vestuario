@@ -1,6 +1,7 @@
 package br.ufc.gvp.model.emprestimo;
 
 import br.ufc.gvp.model.item.Item;
+import br.ufc.gvp.model.item.interfaces.IEmprestavel;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,11 +30,8 @@ public class Emprestimo implements Serializable {
         return dataEmprestimo;
     }
 
-    public LocalDate getDataDevolucao() {
-        return dataDevolucao;
-    }
-
     public void registrarDevolucao() {
+        ((IEmprestavel) item).registrarDevolucao();
         this.dataDevolucao = LocalDate.now();
     }
 

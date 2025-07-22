@@ -2,6 +2,7 @@ package br.ufc.gvp.view;
 
 import br.ufc.gvp.controller.PessoaController;
 import br.ufc.gvp.model.emprestimo.Emprestimo;
+import br.ufc.gvp.model.item.interfaces.IEmprestavel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -78,7 +79,7 @@ public class TabelaDeEmprestimos extends JFrame {
             modelo.addRow(new Object[]{
                     emprestimo.getItem().getNome(),
                     emprestimo.getNomePessoa(),
-                    emprestimo.getDataEmprestimo().toString(),
+                    emprestimo.getDataEmprestimo().toString() + ((IEmprestavel) emprestimo.getItem()).quantidadeDeDiasDesdeOEmprestimo(),
                     emprestimo.estaDevolvido() ? "Finalizado" : "Em andamento"
             });
         }

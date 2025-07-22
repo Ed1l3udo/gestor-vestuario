@@ -10,15 +10,15 @@ public abstract class Acessorio extends Item implements IEmprestavel {
     private String emprestadoPara;
     private LocalDate dataEmprestimo;
 
-    public Acessorio(String nome, String cor, String tamanho, String loja, String estado, String imagem) {
-        super(nome, cor, tamanho, loja, estado, imagem);
+    public Acessorio(String nome, String cor, String tamanho, String loja, String estado) {
+        super(nome, cor, tamanho, loja, estado);
     }
 
     @Override
-    public void registrarEmprestimo(String pessoa, LocalDate data) {
+    public void registrarEmprestimo(String pessoa) {
         emprestado = true;
         emprestadoPara = pessoa;
-        dataEmprestimo = data;
+        dataEmprestimo = LocalDate.now();
     }
 
     @Override
@@ -31,5 +31,10 @@ public abstract class Acessorio extends Item implements IEmprestavel {
         emprestado = false;
         emprestadoPara = null;
         dataEmprestimo = null;
+    }
+
+    @Override
+    public boolean estaEmprestado(){
+        return emprestado;
     }
 }

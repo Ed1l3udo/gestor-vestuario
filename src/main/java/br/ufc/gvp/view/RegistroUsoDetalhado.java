@@ -69,7 +69,7 @@ public class RegistroUsoDetalhado extends JFrame {
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
                 modeloLista.removeElement(usoSelecionado);
-                look.getUsos().remove(usoSelecionado);
+                look.excluirUso(usoSelecionado);
                 controller.salvar();
             }
         } else {

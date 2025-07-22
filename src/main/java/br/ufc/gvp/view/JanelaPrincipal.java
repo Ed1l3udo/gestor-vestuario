@@ -25,20 +25,24 @@ public class JanelaPrincipal extends JFrame {
 
         JButton btnNova = new JButton("Nova Pessoa");
         JButton btnExcluir = new JButton("Excluir Pessoa");
-        JButton btnAbrir = new JButton("Abrir Armário");
+        JButton btnAbrirArmario = new JButton("Abrir Armário");
         JButton btnAbrirLooks = new JButton("Abrir Looks");
+        JButton btnAbrirEstatisticas = new JButton("Abrir Estatisticas");
+
 
         JPanel painel = new JPanel();
         painel.add(btnNova);
         painel.add(btnExcluir);
-        painel.add(btnAbrir);
+        painel.add(btnAbrirArmario);
         painel.add(btnAbrirLooks);
+        painel.add(btnAbrirEstatisticas);
         add(painel, BorderLayout.SOUTH);
 
         btnNova.addActionListener(e -> criarPessoa());
         btnExcluir.addActionListener(e -> excluirPessoa());
-        btnAbrir.addActionListener(e -> abrirPessoa());
+        btnAbrirArmario.addActionListener(e -> abrirArmario());
         btnAbrirLooks.addActionListener(e -> abrirLooks());
+        btnAbrirEstatisticas.addActionListener(e -> abrirEstatisticas());
 
         carregarLista();
         setVisible(true);
@@ -95,7 +99,7 @@ public class JanelaPrincipal extends JFrame {
     }
 
 
-    private void abrirPessoa() {
+    private void abrirArmario() {
         String nome = listaPessoas.getSelectedValue();
         if (nome == null) {
             JOptionPane.showMessageDialog(this, "Selecione alguém.");
@@ -116,6 +120,19 @@ public class JanelaPrincipal extends JFrame {
         new TabelaDeLooks(this, pc);
         setVisible(false);
     }
+
+    private void abrirEstatisticas()
+    {
+        String nome = listaPessoas.getSelectedValue();
+        if (nome == null) {
+            JOptionPane.showMessageDialog(this, "Selecione alguém.");
+            return;
+        }
+        PessoaController pc = new PessoaController(nome);
+        new TelaEstatisticas(this, pc);
+        setVisible(false);
+    }
+
 
     /* util p/ remover prefixo/sufixo */
     private String extrairNome(String arquivo) {

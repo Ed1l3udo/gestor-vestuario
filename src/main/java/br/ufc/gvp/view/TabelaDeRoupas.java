@@ -79,7 +79,7 @@ public class TabelaDeRoupas extends JFrame {
         modelo.setRowCount(0);
         for(Item item: controller.getItens()){
             modelo.addRow(new Object[]{
-                    item.getTipo(),
+                    item.getNome(),
                     item.getCor(),
                     item.getTamanho(),
                     item.getLojaDeOrigem(),
@@ -120,10 +120,12 @@ public class TabelaDeRoupas extends JFrame {
             JOptionPane.showMessageDialog(this, "Este item não é emprestável.");
             return;
         }
+
         if (controller.itemEstaEmprestado(item)) {
             JOptionPane.showMessageDialog(this, "Item já está emprestado.");
             return;
         }
+
         String nomePessoa = JOptionPane.showInputDialog(this, "Nome de quem vai pegar emprestado:");
         if (nomePessoa != null && !nomePessoa.isBlank()) {
             controller.adicionarEmprestimo(item, nomePessoa);

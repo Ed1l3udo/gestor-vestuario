@@ -11,6 +11,7 @@ public class Look implements Serializable {
     private String nome;
     private List<Item> itens;
     private List<RegistroUso> usos;
+    private int totalUsos = 0;
 
     public Look(String nome) {
         this.nome = nome;
@@ -26,6 +27,10 @@ public class Look implements Serializable {
         return itens;
     }
 
+    public int getTotalUsos(){
+        return totalUsos;
+    }
+
     public void adicionarItem(Item item) {
         itens.add(item);
     }
@@ -36,6 +41,15 @@ public class Look implements Serializable {
 
     public void registrarUso(LocalDateTime dataHora, String descricao) {
         usos.add(new RegistroUso(dataHora, descricao));
+        totalUsos++;
+        for(Item item : itens){
+            item.setTotalUsos(item.getTotalUsos()+1);
+        }
+    }
+
+    public void excluirUso(RegistroUso uso){
+        getUsos().remove(uso);
+        totalUsos--;
     }
 
     public List<RegistroUso> getUsos() {

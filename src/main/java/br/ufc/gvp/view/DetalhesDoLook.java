@@ -8,6 +8,7 @@ import br.ufc.gvp.model.look.RegistroUso;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DetalhesDoLook extends JFrame {
     private final PessoaController controller;
@@ -122,14 +123,9 @@ public class DetalhesDoLook extends JFrame {
     }
 
     private Item selecionarItemDialogo() {
-        java.util.List<Item> todosItens = controller.getItens();
-        java.util.List<String> tiposJaAdicionados = look.getItens().stream()
-                .map(Item::getTipo)
-                .toList();
-
-        java.util.List<Item> itensDisponiveis = todosItens.stream()
-                .filter(item -> !tiposJaAdicionados.contains(item.getTipo()))
-                .toList();
+        List<Item> todosItens = controller.getItens();
+        List<String> tiposJaAdicionados = look.getItens().stream().map(Item::getNome).toList();
+        List<Item> itensDisponiveis = todosItens.stream().filter(item -> !tiposJaAdicionados.contains(item.getNome())).toList();
 
         if (itensDisponiveis.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum item disponível com tipo diferente.");
@@ -149,7 +145,7 @@ public class DetalhesDoLook extends JFrame {
     }
 
     private Item selecionarItemParaRemover() {
-        java.util.List<Item> itensDoLook = look.getItens();
+        List<Item> itensDoLook = look.getItens();
 
         if (itensDoLook.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nenhum item para remover.");

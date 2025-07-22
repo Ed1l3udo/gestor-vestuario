@@ -9,13 +9,14 @@ import java.util.List;
 public abstract class RoupaIntima extends Item implements ILavavel {
     private final List<LocalDate> lavagens = new ArrayList<>();
 
-    public RoupaIntima(String nome, String cor, String tamanho, String loja, String estado, String imagem) {
-        super(nome, cor, tamanho, loja, estado, imagem);
+    public RoupaIntima(String nome, String cor, String tamanho, String loja, String estado) {
+        super(nome, cor, tamanho, loja, estado);
     }
 
     @Override
     public void registrarLavagem(LocalDate data) {
         lavagens.add(data);
+        setTotalLavagens(getTotalLavagens()+1);
     }
 
     @Override
